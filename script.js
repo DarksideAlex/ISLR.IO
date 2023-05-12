@@ -140,7 +140,7 @@ function render() {
                 (10000 * camera.zoom)
                );
 
-  ctx.drawImage(player_costume, 123, 0, 61, 61, 
+  ctx.drawImage(player_costume, 100, 0, 50, 50, 
                 (middle.x - ((camera.zoom * player.size) / 2)) + ((camera.zoom) * ((-player.x) + camera.x)), 
                 (middle.y - ((camera.zoom * player.size) / 2)) + ((camera.zoom) * (player.y - camera.y)), 
                 (camera.zoom * player.size), 
