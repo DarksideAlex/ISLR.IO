@@ -46,6 +46,7 @@ player.x = 0;
 player.y = 0;
 player.vel = new Object();
 player.size = 50;
+player.direction = 90;
 
 
 var camera = new Object();
@@ -63,6 +64,9 @@ map.grid.src = "./assets/map/grid.svg";
 
 var currentframe= -1;
 
+var lhand = new Object();
+var rhand = new Object();
+
 function render() {
 
   currentframe++
@@ -71,6 +75,13 @@ function render() {
   
   player.vel.x = 0;
   player.vel.y = 0;
+
+  if(keysDown[69]){
+    player.direction+= 5;
+  }
+  if(keysDown[81]){
+    player.direction-= 5;
+  }
 
   if(keysDown[87]){
     player.vel.y += 1;
@@ -140,17 +151,36 @@ function render() {
                 (10000 * camera.zoom)
                );
 
-  ctx.drawImage(player_costume, 100, 0, 50, 50, 
-                (middle.x - ((camera.zoom * player.size) / 2)) + ((camera.zoom) * ((-player.x) + camera.x)), 
+  
+
+  
+
+  ctx.drawImage(player_costume, 100, 0, 50,50, 
+                (middle.x - ((camera.zoom * player.size) / 2)) + ((camera.zoom) * (-player.x + camera.x)), 
                 (middle.y - ((camera.zoom * player.size) / 2)) + ((camera.zoom) * (player.y - camera.y)), 
                 (camera.zoom * player.size), 
                 (camera.zoom * player.size)
               );
 
+  lhand.x = (Math.sin((player.direction + 180 - 40) * ( Math.PI / 180 )) * 27);
+  lhand.y = (Math.cos((player.direction + 180 - 40) * ( Math.PI / 180 )) * 27);
+  ctx.drawImage(player_costume, 150, 0, 25, 25, 
+                (middle.x - ((camera.zoom * player.size) / 4)) + ((camera.zoom) * ( -(player.x + lhand.x) + camera.x)), 
+                (middle.y - ((camera.zoom * player.size) / 4)) + ((camera.zoom) * ((player.y + lhand.y) - camera.y)), 
+                ((camera.zoom * player.size)/2), 
+                ((camera.zoom * player.size)/2)
+              );
+
+  rhand.x = (Math.sin((player.direction + 180 + 40) * ( Math.PI / 180 )) * 27);
+  rhand.y = (Math.cos((player.direction + 180 + 40) * ( Math.PI / 180 )) * 27);
+  ctx.drawImage(player_costume, 150, 25, 25, 25, 
+                (middle.x - ((camera.zoom * player.size) / 4)) + ((camera.zoom) * ( -(player.x + rhand.x) + camera.x)), 
+                (middle.y - ((camera.zoom * player.size) / 4)) + ((camera.zoom) * ((player.y + rhand.y) - camera.y)), 
+                ((camera.zoom * player.size)/2), 
+                ((camera.zoom * player.size)/2)
+              );
+
   if (game == "running" || game == "paused") {
     requestAnimationFrame(render);
   }
-
-  console.log(camera);
-  console.log(player);
 }
