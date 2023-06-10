@@ -57,34 +57,79 @@ function startGame() {
 
   game = "running";
 
-  render();
+  
 
-  if(touchdevice) {
 
-    mstick = document.querySelector("#mstick");
-    astick = document.querySelector("#astick");
+  if (touchdevice) {
 
-    
-    showDOM(mstick);
-    showDOM(astick);
+    //mstick and astick are predefined
+    const mstick = document.querySelector("#mstick");
+    const astick = document.querySelector("#astick");
 
-    window.mstick = nipplejs.create({
+    window.mstick = {
+      position: {
+        x:0, y:0
+      }, 
+      distance: 0,
+      direction: {
+        degree: 0, radian: 0
+      },
+      moving: false
+    };
+
+    window.astick = {
+      position: {
+        x:0, y:0
+      }, 
+      distance: 0,
+      direction: {
+        degree: 0, radian: 0
+      },
+      moving: false
+    };
+
+    window.mstickInstance = nipplejs.create({
       color: "#000000",
       shape: "square",
       zone: mstick,
       threshold: 0.5,
-      fadeTime: 300
+      fadeTime: 300,
     });
 
-    window.astick = nipplejs.create({
+    window.astickInstance = nipplejs.create({
       color: "#000000",
       shape: "circle",
       zone: astick,
       threshold: 0.5,
-      fadeTime: 300
+      fadeTime: 300,
     });
-    
+
+    window.mstickInstance.on("move", (event, nipple) => {
+      window.mstick.position = nipple.position;
+      window.mstick.distance = nipple.distance;
+      window.mstick.direction = nipple.angle;
+      window.mstick.moving = true;
+      console.log(window.mstick);
+    });
+
+    window.astickInstance.on("move", (event, nipple) => {
+      window.astick.position = nipple.position;
+      window.astick.distance = nipple.distance;
+      window.astick.direction = nipple.angle;
+      window.astick.moving = true;
+      console.log(window.astick);
+    });
+
+    window.astickInstance.on("end", (event, nipple) => {
+      window.astick.moving = false;
+    });
+
+    window.mstickInstance.on("end", (event, nipple) => {
+      window.mstick.moving = false;
+    });
   }
+
+  render();
 
   document.title = "Islr.io - Playing";
   hideMenu(document, 0);

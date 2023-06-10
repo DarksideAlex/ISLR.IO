@@ -145,7 +145,7 @@ canvas {
   height: 100%;
   margin-left: 0px;
   left: 0px;
-  position: relative;
+  position: absolute;
   z-index: 999999999;
 }
 
@@ -156,6 +156,6 @@ canvas {
   height: 100%;
   margin-right: 0px;
   right: 0px;
-  position: relative;
+  position: absolute;
   z-index: 999999999;
 }
